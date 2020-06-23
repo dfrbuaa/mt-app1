@@ -84,6 +84,8 @@ export default {
         var newPoint = (this.list[0].location).split(',')
         var newName = this.list[0].name
         this.point = newPoint
+        console.log(newName)
+        console.log(this.point)
       }
       else if (scrollTop > 500 && scrollTop < 250 + this.list.length * 210) {
         var i = parseInt((scrollTop - 500) / 210) + 1

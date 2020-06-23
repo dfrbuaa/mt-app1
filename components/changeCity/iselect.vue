@@ -1,13 +1,23 @@
 <template>
   <div class="m-iselect">
     <span class="name">按省份选择:</span>
-    <el-select v-model="pvalue" placeholder="省份">
-      <el-option v-for="item in province" :key="item.value" :label="item.label" :value="item.value" />
+    <el-select v-model="pvalue" placeholder="省份" @change="changeProvince">
+      <el-option
+        v-for="item in province"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+      />
     </el-select>
-    <el-select v-model="cvalue" :disabled="!city.length" placeholder="城市">
+    <el-select v-model="cvalue" :disabled="!city.length" placeholder="城市" @change="changeCity">
       <el-option v-for="item in city" :key="item.value" :label="item.label" :value="item.value" />
     </el-select>
-    <el-autocomplete v-model="input" :fetch-suggestions="querySearchAsync" placeholder="请输入城市中文或拼音" @select="handleSelect" />
+    <el-autocomplete
+      v-model="input"
+      :fetch-suggestions="querySearchAsync"
+      placeholder="请输入城市中文或拼音"
+      @select="handleSelect"
+    />
   </div>
 </template>
 
@@ -24,13 +34,16 @@ export default {
       cities: []
     };
   },
-  // 选择新的省份，加载响应的城市
+
   watch: {
+    // 选择新的省份，加载响应的城市
     pvalue: async function (newPvalue) {
       let self = this;
+
       let { status, data: { city } } = await self.$axios.get(`/geo/province/${newPvalue}`);
       if (status === 200) {
         self.city = city.map(item => {
+
           return {
             value: item.id,
             label: item.name
@@ -38,7 +51,15 @@ export default {
         });
         self.cvalue = "";
       }
+
+    },
+    // 选择新的城市，加载页面
+    cvalue: async function (newCvalue) {
+      let self = this
+      // console.log(newCvalue)
+      // self.$store.commit('geo/changePosition', { city: newCvalue, province: 'newPvalue' })
     }
+
   },
   // 自动加载省份列表
   mounted: async function () {
@@ -73,9 +94,20 @@ export default {
         }
       }
     }, 200),
-    handleSelect: function (item) {
-      console.log(item.value);
-    }
+    changeProvince (item) {
+      console.log(item);
+    },
+    changeCity (item) {
+
+      console.log(item);
+    },
+    handleSelect (item) {
+      let self = this
+
+      self.$store.commit('geo/changePosition', { city: item.value })
+      console.log(item);
+    },
+
   }
 };
 </script>

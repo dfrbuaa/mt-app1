@@ -42,16 +42,13 @@ export default {
     };
   },
   computed: {
-    cur: function() {
+    cur: function () {
       return this.list[this.kind];
     }
   },
-  async mounted() {
+  async mounted () {
     let self = this;
-    let {
-      status,
-      data: { count, pois }
-    } = await self.$axios.get("/search/resultsByKeywords", {
+    let { status, data: { count, pois } } = await self.$axios.get("/search/resultsByKeywords", {
       params: {
         keyword: "景点",
         city: self.$store.state.geo.position.city
@@ -75,17 +72,14 @@ export default {
     }
   },
   methods: {
-    over: async function(e) {
+    over: async function (e) {
       let dom = e.target;
       let tag = dom.tagName.toLowerCase();
       let self = this;
       if (tag === "dd") {
         this.kind = dom.getAttribute("kind");
         let keyword = dom.getAttribute("keyword");
-        let {
-          status,
-          data: { count, pois }
-        } = await self.$axios.get("/search/resultsByKeywords", {
+        let { status, data: { count, pois } } = await self.$axios.get("/search/resultsByKeywords", {
           params: {
             keyword,
             city: self.$store.state.geo.position.city

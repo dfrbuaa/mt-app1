@@ -14,6 +14,7 @@ import passport from './interface/utils/passport'
 import users from './interface/users'
 import geo from './interface/geo'
 import search from './interface/search'
+import categroy from './interface/categroy'
 
 
 const app = new Koa()
@@ -35,7 +36,8 @@ app.use(json())
 
 // 连接数据库
 mongoose.connect(dbConfig.dbs, { useNewUrlParser: true, useUnifiedTopology: true })
-    // passport初始化
+
+// passport初始化
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -64,6 +66,7 @@ async function start() {
     app.use(users.routes()).use(users.allowedMethods())
     app.use(geo.routes()).use(geo.allowedMethods())
     app.use(search.routes()).use(search.allowedMethods())
+    app.use(categroy.routes()).use(categroy.allowedMethods())
 
     app.use((ctx) => {
         ctx.status = 200

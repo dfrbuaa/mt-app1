@@ -6,18 +6,33 @@
       </el-col>
       <el-col :span="15" class="center">
         <div class="wrapper">
-          <el-input v-model="search" @focus="focus" @blur="blur" @input="input" placeholder="搜索商家和地点"></el-input>
+          <el-input
+            v-model="search"
+            @focus="focus"
+            @blur="blur"
+            @input="input"
+            placeholder="搜索商家和地点"
+          ></el-input>
           <button class="el-button el-button--primary"><i class="el-icon-search"></i></button>
           <dl v-if="isHotPlace" class="hotPlace">
             <dt>热门搜索</dt>
-            <dd v-for="(item, idx) in $store.state.home.hotPlace.slice(0, 5)" :key="idx">{{ item.name }}</dd>
+            <dd v-for="(item, idx) in $store.state.home.hotPlace.slice(0, 5)" :key="idx">
+              <a :href="'/products?keyword=' + encodeURIComponent(item.name)">{{ item.name }}</a>
+            </dd>
           </dl>
           <dl v-if="isSearchList" class="searchList">
-            <dd v-for="(item, idx) in searchList" :key="idx">{{ item.name }}</dd>
+            <dd v-for="(item, idx) in searchList" :key="idx">
+              <a :href="'/products?keyword=' + encodeURIComponent(item.name)">{{ item.name }}</a>
+            </dd>
           </dl>
         </div>
         <p class="suggset">
-          <a href="#" v-for="(item, idx) in $store.state.home.hotPlace.slice(0, 5)" :key="idx">{{ item.name }}</a>
+          <a
+            :href="'/products?keyword=' + encodeURIComponent(item.name)"
+            v-for="(item, idx) in $store.state.home.hotPlace.slice(0, 5)"
+            :key="idx"
+            >{{ item.name }}</a
+          >
         </p>
         <ul class="nav">
           <li>
@@ -57,7 +72,7 @@
 <script>
 import _ from "lodash"; //延时函数
 export default {
-  data() {
+  data () {
     return {
       search: "",
       isFocus: false,
@@ -66,24 +81,24 @@ export default {
     };
   },
   computed: {
-    isHotPlace() {
+    isHotPlace () {
       return this.isFocus && !this.search;
     },
-    isSearchList() {
+    isSearchList () {
       return this.isFocus && this.search;
     }
   },
   methods: {
-    focus() {
+    focus () {
       this.isFocus = true;
     },
-    blur() {
+    blur () {
       let self = this;
-      setTimeout(function() {
+      setTimeout(function () {
         self.isFocus = false;
       }, 200);
     },
-    input: _.debounce(async function() {
+    input: _.debounce(async function () {
       let self = this;
       let city = self.$store.state.geo.position.city.replace("市", "");
       self.searchList = [];

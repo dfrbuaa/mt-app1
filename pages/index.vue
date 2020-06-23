@@ -25,6 +25,7 @@ export default {
     Life,
     Artistic
   }
+
 };
 </script>
 

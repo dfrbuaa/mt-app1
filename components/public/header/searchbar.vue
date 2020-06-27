@@ -13,7 +13,12 @@
             @input="input"
             placeholder="搜索商家和地点"
           ></el-input>
-          <button class="el-button el-button--primary"><i class="el-icon-search"></i></button>
+          <a :href="'/products?keyword=' + encodeURIComponent(this.search)">
+            <button class="el-button el-button--primary">
+              <i class="el-icon-search" />
+            </button>
+          </a>
+
           <dl v-if="isHotPlace" class="hotPlace">
             <dt>热门搜索</dt>
             <dd v-for="(item, idx) in $store.state.home.hotPlace.slice(0, 5)" :key="idx">
@@ -26,7 +31,7 @@
             </dd>
           </dl>
         </div>
-        <p class="suggset">
+        <p class="suggest">
           <a
             :href="'/products?keyword=' + encodeURIComponent(item.name)"
             v-for="(item, idx) in $store.state.home.hotPlace.slice(0, 5)"
@@ -70,6 +75,7 @@
 </template>
 
 <script>
+
 import _ from "lodash"; //延时函数
 export default {
   data () {
@@ -77,10 +83,14 @@ export default {
       search: "",
       isFocus: false,
       hotPlace: [],
-      searchList: []
+      searchList: [],
+
     };
+
   },
+
   computed: {
+
     isHotPlace () {
       return this.isFocus && !this.search;
     },
@@ -89,6 +99,7 @@ export default {
     }
   },
   methods: {
+
     focus () {
       this.isFocus = true;
     },
@@ -108,8 +119,17 @@ export default {
       } = await self.$axios.get("search/top", { params: { input: self.search, city } });
       self.searchList = top.slice(0, 10);
     }, 300)
+  },
+  async asyncData () {
+    const { status: status3, data: { result } } = await this.$axios.get('/search/hotPlace', {
+      params: {
+        city: this.$store.state.geo.position.city.toString().replace('市', '')
+      }
+    })
+    this.$store.commit('home/setHotPlace', status3 === 200 ? result : [])
   }
 };
+
 </script>
 
 <style lang="scss">

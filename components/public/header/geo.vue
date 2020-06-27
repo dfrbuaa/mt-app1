@@ -11,19 +11,30 @@
 <script>
 export default {
   data () {
-    return {};
+    return {
+
+    };
   },
+
+
+
   methods: {
+
     async setPosition () {
+
       const { status, data: { province, city } } = await this.$axios.get('/geo/getPosition')
-      this.$store.commit('geo/setPosition', status === 200 ? { city, province } : { city: '', province: '' })
-      const { status: status3, data: { result } } = await this.$axios.get('/search/hotPlace', {
+
+      await this.$axios.get('/geo/removeChangeCity')
+      const { status: status1, data: { newCity } } = await this.$axios.post('/geo/changeCity', {
         params: {
-          city: this.$store.state.geo.position.city.toString().replace('市', '')
+          city: this.city
         }
       })
-      this.$store.commit('home/setHotPlace', status3 === 200 ? result : [])
+      location.href = "/"
+
     }
+
+
   }
 };
 </script>

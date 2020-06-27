@@ -37,6 +37,9 @@ module.exports = {
      ** Nuxt.js dev-modules
      */
     buildModules: [],
+    router: {
+        middleware: 'state'
+    },
     /*
      ** Nuxt.js modules
      */

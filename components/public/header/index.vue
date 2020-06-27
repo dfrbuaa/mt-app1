@@ -17,9 +17,23 @@
 import topBar from './topbar.vue'
 import searchBar from './searchbar.vue'
 export default {
+
   components: {
     topBar,
     searchBar
+  },
+
+  methods: {
+    // getCookie (name) {
+    //   var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+    //   if (process.client) {
+    //     if (arr = document.cookie.match(reg))
+    //       return unescape(arr[2]);
+    //     else
+    //       return null;
+    //   }
+
+    // }
   }
 }
 </script>

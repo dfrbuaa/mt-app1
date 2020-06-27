@@ -2,10 +2,9 @@
     @at-root .el-header {
         .m-header.m-header-topbar {
             width: 1190px!important;
-            z-index: 9999;
+            z-index: 99999;
             height: 40px;
             line-height: 40px;
-            z-index: 9;
         }
     }
     .m-geo {
@@ -45,7 +44,7 @@
         float: right;
         margin: 0;
         padding: 0;
-        z-index: 999;
+        z-index: 999999;
         .nav {
             list-style: none;
             float: right;
@@ -85,6 +84,7 @@
                 }
                 &.bd {
                     dl {
+                        z-index: 9999;
                         width: 140%;
                         position: relative;
                         border-top: 1px solid #e5e5e5;
@@ -120,7 +120,7 @@
                     width: 1250px;
                     position: relative;
                     left: -1175px;
-                    z-index: 999;
+                    z-index: 99999;
                     border: 1px solid #e5e5e5;
                     display: none;
                     text-align: left;
@@ -135,6 +135,7 @@
                         right: 0;
                     }
                     >dl {
+                        z-index: 999999;
                         box-sizing: border-box;
                         text-align: left;
                         display: inline-block !important;

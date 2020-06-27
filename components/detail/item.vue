@@ -1,17 +1,15 @@
 <template>
-  <li
-    v-if="meta.photos.length"
-    class="m-detail-item">
+  <li v-if="meta.photos.length" class="m-detail-item">
     <dl class="section">
       <dd>
-        <img
-          :src="meta.photos[0].url"
-          :alt="meta.photos[0].title">
+        <img :src="meta.photos[0].url" :alt="meta.photos[0].title" />
       </dd>
       <dd>
         <h4>{{ meta.name }}</h4>
         <p>
-          <span v-if="meta.biz_ext&&meta.biz_ext.ticket_ordering">剩余：{{ Number(meta.biz_ext.ticket_ordering) }}</span>
+          <span v-if="meta.biz_ext && meta.biz_ext.ticket_ordering"
+            >剩余：{{ Number(meta.biz_ext.ticket_ordering) }}</span
+          >
           <span v-if="meta.deadline">截止日期：{{ meta.deadline }}</span>
         </p>
         <p>
@@ -20,10 +18,7 @@
         </p>
       </dd>
       <dd>
-        <el-button
-          type="warning"
-          round
-          @click="createCart">立即抢购</el-button>
+        <el-button type="warning" round @click="createCart">立即抢购</el-button>
       </dd>
     </dl>
   </li>
@@ -42,13 +37,8 @@ export default {
   methods: {
     createCart: async function () {
       let self = this;
-      let {
-        status,
-        data: {
-          code,
-          id
-        }
-      } = await this.$axios.post('/cart/create', {
+      // 请求创建了一个id:cartNo的购物车，后面会去获取这个购物车
+      let { status, data: { code, id } } = await this.$axios.post('/cart/create', {
         params: {
           id: Math.random().toString().slice(3, 9),
           detail: {
@@ -58,9 +48,9 @@ export default {
           }
         }
       })
-      if(status===200&&code===0){
-        window.location.href=`/cart/?id=${id}`
-      }else{
+      if (status === 200 && code === 0) {
+        window.location.href = `/cart/?id=${id}`
+      } else {
         console.log('error')
       }
     }
@@ -69,6 +59,4 @@ export default {
 </script>
 
 <style lang="scss">
-
-
 </style>

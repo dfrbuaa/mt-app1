@@ -2,12 +2,7 @@
   <div class="m-iselect">
     <span class="name">按省份选择:</span>
     <el-select v-model="pvalue" placeholder="省份" @change="changeProvince">
-      <el-option
-        v-for="item in province"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
+      <el-option v-for="item in province" :key="item.value" :label="item.label" :value="item.value" />
     </el-select>
     <el-select v-model="cvalue" :disabled="!city.length" placeholder="城市" @change="changeCity">
       <el-option v-for="item in city" :key="item.value" :label="item.label" :value="item.value" />
@@ -23,6 +18,7 @@
 
 <script>
 import _ from "lodash";
+
 export default {
   data () {
     return {
@@ -75,6 +71,14 @@ export default {
     }
   },
   methods: {
+    // setCookie (name, value) {
+    //   if (value) {
+    //     var Days = 365
+    //     var exp = new Date()
+    //     exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000)
+    //     document.cookie = name + '=' + escape(value) + ';expires=' + exp.toGMTString()
+    //   }
+    // },
     querySearchAsync: _.debounce(async function (query, cb) {
       let self = this;
       if (self.cities.length) {
@@ -101,11 +105,23 @@ export default {
 
       console.log(item);
     },
-    handleSelect (item) {
+    async handleSelect (item) {
       let self = this
+      // await self.$store.commit('geo/setPosition', { city: item.value })
+      await self.$axios.get('/geo/removeChangeCity')
+      const { status: status1, data: { newCity } } = await self.$axios.post('/geo/changeCity', {
+        params: {
+          city: item.value
+        }
+      })
+      location.href = "/changeCity"
 
-      self.$store.commit('geo/changePosition', { city: item.value })
-      console.log(item);
+
+
+
+
+
+
     },
 
   }

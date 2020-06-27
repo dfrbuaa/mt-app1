@@ -2,8 +2,54 @@ import Router from 'koa-router'
 import axios from './utils/axios'
 import Province from '../dbs/models/province';
 import City from '../dbs/models/city';
+import Changecity from '../dbs/models/changecity';
 
 let router = new Router({ prefix: '/geo' })
+
+// 创建切换城市的库
+router.post('/changeCity', async(ctx) => {
+    let { params: { city } } = ctx.request.body
+    let changecity = new Changecity({ city })
+    let result = await changecity.save()
+    if (result) {
+        ctx.body = {
+            code: 0,
+            newCity: city
+
+        }
+    } else {
+        ctx.body = {
+            code: -1,
+
+        }
+    }
+
+})
+
+// 获取切换的城市
+router.get('/getChangeCity', async(ctx) => {
+    let newCity = await Changecity.find()
+    ctx.body = {
+        newCity: newCity.map(item => {
+            return {
+                city: item.city
+
+            }
+        })
+    }
+
+})
+
+//删除切换城市的库
+router.get('/removeChangeCity', async(ctx) => {
+    await Changecity.deleteMany({})
+    ctx.body =
+        '清空数据库成功！'
+
+
+})
+
+
 
 router.get('/province', async(ctx) => {
     // let province = await Province.find()

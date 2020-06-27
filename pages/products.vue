@@ -35,7 +35,7 @@ export default {
 
       list: [],
 
-      types: [],
+      // types: [],
       areas: [],
       keyword: '',
       point: [],
@@ -45,6 +45,7 @@ export default {
     }
   },
   computed: {
+
 
     list0 () {
       let listA = this.sortKeyHigh(this.list, 'rate')
@@ -62,8 +63,12 @@ export default {
     }
 
   },
+  created () {
 
+  },
   mounted () {
+
+
 
     // this.list0 = JSON.parse(JSON.stringify(this.list))
     window.addEventListener('scroll', this.handleScroll)
@@ -72,7 +77,7 @@ export default {
 
   methods: {
     handleScroll () {
-      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
       // console.log(scrollTop)
 
       if (scrollTop > 260) {
@@ -84,6 +89,8 @@ export default {
         var newPoint = (this.list[0].location).split(',')
         var newName = this.list[0].name
         this.point = newPoint
+        console.log(newName)
+        console.log(this.point)
       }
       else if (scrollTop > 500 && scrollTop < 250 + this.list.length * 210) {
         var i = parseInt((scrollTop - 500) / 210) + 1
@@ -146,8 +153,11 @@ export default {
   },
   // 获取异步数据
   async asyncData (ctx) {
+
     let keyword = ctx.query.keyword
     let city = ctx.store.state.geo.position.city
+    console.log(city)
+    console.log(1111)
     var { status, data: { count, pois } } = await ctx.$axios.get('/search/resultsByKeywords', {
       params: {
         keyword,
@@ -178,6 +188,7 @@ export default {
         }),
         keyword,
         areas: areas.filter(item => item.type !== '').slice(0, 5),
+
         types: types.filter(item => item.type !== '').slice(0, 5),
         point: (pois.find(item => item.location).location || '').split(','),
 

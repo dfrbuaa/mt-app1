@@ -19,6 +19,7 @@ export default {
   components: {
     MyHeader,
     MyFooter
-  }
+  },
+
 };
 </script>
